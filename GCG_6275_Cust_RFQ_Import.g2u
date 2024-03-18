@@ -1,0 +1,593 @@
+Program.Sub.ScreenSU.Start
+Gui.FormCustRFQ..Create
+Gui.FormCustRFQ..Caption("Customer RFQ Upload")
+Gui.FormCustRFQ..Size(6525,1515)
+Gui.FormCustRFQ..MinX(0)
+Gui.FormCustRFQ..MinY(0)
+Gui.FormCustRFQ..Position(0,0)
+Gui.FormCustRFQ..BackColor(-2147483633)
+Gui.FormCustRFQ..MousePointer(0)
+Gui.FormCustRFQ..Event(UnLoad,FormCustRFQ_UnLoad)
+Gui.FormCustRFQ.lblOrdUpload.Create(Label,"Select Excel file to Upload",True,2250,255,0,105,240,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustRFQ.cmdFileBrowser.Create(Button)
+Gui.FormCustRFQ.cmdFileBrowser.Size(480,420)
+Gui.FormCustRFQ.cmdFileBrowser.Position(5745,450)
+Gui.FormCustRFQ.cmdFileBrowser.Caption("^")
+Gui.FormCustRFQ.cmdFileBrowser.Event(Click,cmdFileBrowser_Click)
+Gui.FormCustRFQ.lvw1.Create(ListView)
+Gui.FormCustRFQ.lvw1.Size(5550,390)
+Gui.FormCustRFQ.lvw1.Position(105,465)
+Gui.FormCustRFQ.lvw1.View(0)
+Gui.FormCustRFQ.lvw1.Event(OLEDragDrop,lvw1_OLEDragDrop)
+Gui.FormCustRFQ.txtCust.Create(TextBox,"",True,1650,300,0,4020,90,True,0,"Arial",8,-2147483643,1)
+Gui.FormCustRFQ.lblCust.Create(Label,"Customer",True,900,255,0,3060,180,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustRFQ.cmdCust.Create(Button)
+Gui.FormCustRFQ.cmdCust.Size(480,420)
+Gui.FormCustRFQ.cmdCust.Position(5745,30)
+Gui.FormCustRFQ.cmdCust.Caption("^")
+Gui.FormCustRFQ.cmdCust.Event(Click,cmdCust_Click)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+V.Global.sCust.Declare(String,"")
+V.Global.sName.Declare(String,"")
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+Gui.FormCustRFQ..Show
+Gui.FormCustRFQ..AlwaysOnTop(True)
+Gui.FormCustRFQ..AlwaysOnTop(False)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275.Cust_RFQ_Import.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustRFQ_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Main.End
+
+Program.Sub.lvw1_OLEDragDrop.Start
+F.Intrinsic.Control.SetErrorHandler("lvw1_OLEDragDrop_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sFiles.Declare(String,"")
+V.Local.sFileType.Declare(String,"")
+V.Local.sMsg.Declare(String,"")
+V.Local.i.Declare(Long,0)
+
+F.Intrinsic.Control.If(V.Screen.FormCustRFQ!txtCust.Text,=,"")
+	F.Intrinsic.UI.Msgbox("Select Customer to Process File...............","Attention")
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+Gui.FormCustRFQ..Visible(False)
+
+F.Intrinsic.String.Split(V.Args.Files,"*!*",V.Local.sFiles)
+
+F.Intrinsic.Control.For(V.Local.i,0,V.Local.sFiles.UBound,1)
+	F.Intrinsic.String.Split(V.Local.sFiles(V.Local.i),"\",V.Local.sFileType)
+	F.Intrinsic.String.Split(V.Local.sFileType(V.Local.sFileType.UBound).Trim,".",V.Local.sFileType)
+	V.Local.sFileType.RedimPreserve(0,1)
+
+	F.Intrinsic.Control.If(V.DataTable.Cust(V.DataTable.Cust.RowCount--).File_Type!FieldValTrim,=,"XLSX")
+		F.Intrinsic.Control.If(v.Local.sFileType(1).UCase,<>,"XLS","AND",v.Local.sFileType(1).UCase,<>,"XLSX")
+			F.Intrinsic.String.Build("File Type {0} is not supported for selected Customer",V.Local.sFileType(1).Ucase,V.Local.sMsg)
+			F.Intrinsic.UI.Msgbox(V.Local.sMsg,"Attention")
+		F.Intrinsic.Control.Else
+			'passing file location when user drops file in list view
+			F.Intrinsic.Control.CallSub(Process_Files,"Files",V.Local.sFiles(V.Local.i),"FileType",v.Local.sFileType(1).UCase)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.Else
+		F.Intrinsic.Control.If(v.Local.sFileType(1).UCase,<>,V.DataTable.Cust(V.DataTable.Cust.RowCount--).File_Type!FieldValTrim)
+			F.Intrinsic.String.Build("File Type {0} is not supported for selected Customer",V.Local.sFileType(1).Ucase,V.Local.sMsg)
+			F.Intrinsic.UI.Msgbox(V.Local.sMsg,"Attention")
+		F.Intrinsic.Control.Else
+			'passing file location when user drops file in list view
+			F.Intrinsic.Control.CallSub(Process_Files,"Files",V.Local.sFiles(V.Local.i),"FileType",v.Local.sFileType(1).UCase)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.i)
+
+Gui.FormCustRFQ..Show
+Gui.FormCustRFQ..AlwaysOnTop(True)
+Gui.FormCustRFQ..AlwaysOnTop(False)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("lvw1_OLEDragDrop_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275.Cust_RFQ_Import.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustRFQ_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.lvw1_OLEDragDrop.End
+
+Program.Sub.cmdFileBrowser_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmdFileBrowser_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sRet.Declare(String,"")
+V.Local.sFileType.Declare(String,"")
+V.Local.sMsg.Declare(String,"")
+
+F.Intrinsic.Control.If(V.Screen.FormCustRFQ!txtCust.Text,=,"")
+	F.Intrinsic.UI.Msgbox("Select Customer to Browse for a File...............","Attention")
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+'when selecting from the browser only show csv files
+F.Intrinsic.Control.If(V.DataTable.Cust(V.DataTable.Cust.RowCount--).File_Type!FieldValTrim,=,"XLSX")
+	F.Intrinsic.UI.ShowOpenFileDialog("","Microsoft Excel Spredsheet[.xlsx]|*.xlsx|Microsoft Excel 97-2003[.xls]|*.xls","",V.Local.sRet)
+F.Intrinsic.Control.ElseIf(V.DataTable.Cust(V.DataTable.Cust.RowCount--).File_Type!FieldValTrim,=,"TXT")
+	F.Intrinsic.UI.ShowOpenFileDialog("","TXT[.txt]|*.txt","",V.Local.sRet)
+F.Intrinsic.Control.ElseIf(V.DataTable.Cust(V.DataTable.Cust.RowCount--).File_Type!FieldValTrim,=,"CSV")
+	F.Intrinsic.UI.ShowOpenFileDialog("","CSV[.csv]|*.csv","",V.Local.sRet)
+F.Intrinsic.Control.EndIf
+
+'checking to see if a file was chosen
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.String.Split(V.Local.sRet,"\",V.Local.sFileType)
+	F.Intrinsic.String.Split(V.Local.sFileType(V.Local.sFileType.UBound).Trim,".",V.Local.sFileType)
+	V.Local.sFileType.RedimPreserve(0,1)
+
+	F.Intrinsic.Control.If(V.DataTable.Cust(V.DataTable.Cust.RowCount--).File_Type!FieldValTrim,=,"XLSX")
+		F.Intrinsic.Control.If(v.Local.sFileType(1).UCase,<>,"XLS","AND",v.Local.sFileType(1).UCase,<>,"XLSX")
+			F.Intrinsic.String.Build("File Type {0} is not supported",V.Local.sFileType(1).Ucase,V.Local.sMsg)
+			F.Intrinsic.UI.Msgbox(V.Local.sMsg,"Attention")
+			F.Intrinsic.Control.ExitSub
+		F.Intrinsic.Control.EndIf
+		Gui.FormCustRFQ..Visible(False)
+		'passing file location when user drops file in list view
+		F.Intrinsic.Control.CallSub(Process_Files,"Files",V.Local.sRet,"FileType",v.Local.sFileType(1).UCase)
+	F.Intrinsic.Control.Else
+		F.Intrinsic.Control.If(v.Local.sFileType(1).UCase,<>,V.DataTable.Cust(V.DataTable.Cust.RowCount--).File_Type!FieldValTrim)
+			F.Intrinsic.String.Build("File Type {0} is not supported",V.Local.sFileType(1).Ucase,V.Local.sMsg)
+			F.Intrinsic.UI.Msgbox(V.Local.sMsg,"Attention")
+			F.Intrinsic.Control.ExitSub
+		F.Intrinsic.Control.EndIf
+		Gui.FormCustRFQ..Visible(False)
+		'passing file location when user drops file in list view
+		F.Intrinsic.Control.CallSub(Process_Files,"Files",V.Local.sRet,"FileType",v.Local.sFileType(1).UCase)
+	F.Intrinsic.Control.EndIf
+	Gui.FormCustRFQ..Show
+	Gui.FormCustRFQ..AlwaysOnTop(True)
+	Gui.FormCustRFQ..AlwaysOnTop(False)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdFileBrowser_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275.Cust_RFQ_Import.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustRFQ_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmdFileBrowser_Click.End
+
+Program.Sub.FormCustRFQ_UnLoad.Start
+F.Intrinsic.Control.SetErrorHandler("FormCustRFQ_UnLoad_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("FormCustRFQ_UnLoad_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.Control.End
+Function.Intrinsic.Control.EndIf
+Program.Sub.FormCustRFQ_UnLoad.End
+
+Program.Sub.Process_Files.Start
+F.Intrinsic.Control.SetErrorHandler("Process_Files_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sFileContent.Declare(String,"")
+V.Local.sRow.Declare(String,"")
+V.Local.sData.Declare(String,"")
+V.Local.iRow.Declare(Long,0)
+V.Local.sFieldNames.Declare(String,"")
+V.Local.sFieldType.Declare(String,"")
+V.Local.sTemp.Declare(String,"")
+V.Local.sBlank.Declare(String," ")
+V.Local.iStart.Declare(Long,0)
+V.Local.sTempRow.Declare(String,"")
+V.Local.sCol.Declare(STring,"")
+V.Local.sColData.Declare(String,"")
+V.Local.i.Declare(Long,0)
+V.Local.sRet.Declare(String,"")
+V.Local.iIndex.Declare(Long,0)
+V.Local.sRowData.Declare(String,"")
+
+V.Local.sFieldNames.Set("RFQNo*!*LINE*!*Scenario*!*Range*!*NoBid*!*PartNumber*!*PartDesc*!*TargetQty*!*UOM*!*LeadTimeDays*!*RatePerMonth*!*OriginCountry*!*ExportClass*!*PriceType*!*CommercialPart*!*ByYear*!*YearsQuoting*!*PeriodofPerf*!*Year1Qty*!*Year1Bid*!*Year2Qty*!*Year2Bid*!*Year3Qty*!*Year3Bid*!*Year4Qty*!*Year4Bid*!*Year5Qty*!*Year5Bid*!*Year6Qty*!*Year6Bid*!*Year7Qty*!*Year7Bid*!*Year8Qty*!*Year8Bid*!*Year9Qty*!*Year9Bid*!*Year10Qty*!*Year10Bid*!*NRECharges*!*SpecialCharges*!*ToolingCharges*!*Notes")
+V.Local.sFieldType.Set("String*!*String*!*String*!*String*!*String*!*String*!*String*!*Long*!*String*!*Long*!*Float*!*String*!*String*!*String*!*String*!*String*!*String*!*String*!*Long*!*Float*!*Long*!*Float*!*Long*!*Float*!*Long*!*Float*!*Long*!*Float*!*Long*!*Float*!*Long*!*Float*!*Long*!*Float*!*Long*!*Float*!*Long*!*Float*!*Float*!*Float*!*Float*!*String")
+
+F.Intrinsic.String.Split(V.Local.sFieldNames,"*!*",V.Local.sCol)
+
+F.Intrinsic.Control.SelectCase(V.Args.FileType)	
+	F.Intrinsic.Control.Case("XLSX")
+		F.Automation.MSExcel.ReadSpreadsheet(V.Args.Files,V.Local.sFileContent)
+		F.Intrinsic.String.Split(V.Local.sFileContent,"&^&",V.Local.sRow)
+		F.Intrinsic.String.Split(V.Local.sRow,"$!$",V.Local.sRow)
+	
+		F.Intrinsic.Math.Sub(V.DataTable.Cust(V.DataTable.Cust.RowCount--).Start_Row!FieldValLong,1,V.Local.iStart)
+		F.Intrinsic.Control.For(V.Local.iRow,V.Local.iStart,V.Local.sRow.UBound,1)
+			V.Local.sColData.Redim(0,41)
+			F.Intrinsic.String.Split(V.Local.sRow(V.Local.iRow),"*!*",V.Local.sRowData)
+			V.Local.sRowData.RedimPreserve(0,41)
+			F.Intrinsic.Control.For(V.Local.i,0,V.Local.sCol.UBound,1)
+				F.Intrinsic.String.Split(V.DataTable.Cust(V.DataTable.Cust.RowCount--).[V.Local.sCol(V.Local.i)]!FieldValTrim,"Column ",V.Local.sRet)
+				V.Local.sRet.RedimPreserve(0,1)
+				F.Intrinsic.Control.If(V.Local.sRet(1).Trim,<>,"")
+					F.Intrinsic.Math.Sub(V.Local.sRet(1).Long,1,V.Local.iIndex)
+					F.Intrinsic.Control.If(V.Local.sCol(V.Local.i).UCase,=,"TARGETQTY","OR",V.Local.sCol(V.Local.i).UCase,=,"LEADTIMEDAYS",V.Local.sCol(V.Local.i).UCase,=,"RATEPERMONTH")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR1QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR1BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR2QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR2BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR3QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR3BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR4QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR4BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR5QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR5BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR6QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR6BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR7QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR7BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR8QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR8BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR9QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR9BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR10QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR10BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"NRECHARGES","OR",V.Local.sCol(V.Local.i).UCase,=,"SPECIALCHARGES",V.Local.sCol(V.Local.i).UCase,=,"TOOLINGCHARGES")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.Else
+						V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+					F.Intrinsic.Control.EndIf
+				F.Intrinsic.Control.EndIf
+			F.Intrinsic.Control.Next(V.Local.i)
+
+			F.Intrinsic.Control.For(V.Local.i,0,V.Local.sCol.UBound,1)
+				F.Intrinsic.Control.If(V.Local.i,=,0)
+					V.Local.sTempRow.Set(V.Local.sColData(V.Local.i).Trim)
+				F.Intrinsic.Control.Else
+					F.Intrinsic.String.Build("{0}*!*{1}",V.Local.sTempRow,V.Local.sColData(V.Local.i).Trim,V.Local.sTempRow)
+				F.Intrinsic.Control.EndIf
+			F.Intrinsic.Control.Next(V.Local.i)
+			
+			F.Intrinsic.Control.If(V.Local.sData.Trim,=,"")
+				V.Local.sData.Set(V.Local.sTempRow)
+			F.Intrinsic.Control.Else
+				F.Intrinsic.String.Build("{0}{1}{2}",V.Local.sData,V.Ambient.NewLine,V.Local.sTempRow,V.Local.sData)
+			F.Intrinsic.Control.EndIf
+			V.Local.sTempRow.Set("")
+		F.Intrinsic.Control.Next(V.Local.iRow)
+		
+		F.Intrinsic.Control.If(V.DataTable.RFQ.Exists)
+			F.Data.DataTable.Close("RFQ")
+		F.Intrinsic.Control.EndIf
+		
+		F.Data.DataTable.CreateFromString("RFQ",V.Local.sData,V.Local.sFieldNames,V.Local.sFieldType,"*!*",V.Ambient.NewLine,True)
+
+	F.Intrinsic.Control.Case("XLS")
+		F.Automation.MSExcel.ReadSpreadsheet(V.Args.Files,V.Local.sFileContent)
+		F.Intrinsic.String.Split(V.Local.sFileContent,"&^&",V.Local.sRow)
+		F.Intrinsic.String.Split(V.Local.sRow,"$!$",V.Local.sRow)
+	
+		F.Intrinsic.Math.Sub(V.DataTable.Cust(V.DataTable.Cust.RowCount--).Start_Row!FieldValLong,1,V.Local.iStart)
+		F.Intrinsic.Control.For(V.Local.iRow,V.Local.iStart,V.Local.sRow.UBound,1)
+			V.Local.sColData.Redim(0,41)
+			F.Intrinsic.String.Split(V.Local.sRow(V.Local.iRow),"*!*",V.Local.sRowData)
+			V.Local.sRowData.RedimPreserve(0,41)
+			F.Intrinsic.Control.For(V.Local.i,0,V.Local.sCol.UBound,1)
+				F.Intrinsic.String.Split(V.DataTable.Cust(V.DataTable.Cust.RowCount--).[V.Local.sCol(V.Local.i)]!FieldValTrim,"Column ",V.Local.sRet)
+				V.Local.sRet.RedimPreserve(0,1)
+				F.Intrinsic.Control.If(V.Local.sRet(1).Trim,<>,"")
+					F.Intrinsic.Math.Sub(V.Local.sRet(1).Long,1,V.Local.iIndex)
+					F.Intrinsic.Control.If(V.Local.sCol(V.Local.i).UCase,=,"TARGETQTY","OR",V.Local.sCol(V.Local.i).UCase,=,"LEADTIMEDAYS",V.Local.sCol(V.Local.i).UCase,=,"RATEPERMONTH")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR1QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR1BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR2QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR2BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR3QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR3BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR4QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR4BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR5QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR5BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR6QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR6BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR7QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR7BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR8QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR8BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"YEAR9QTY","OR",V.Local.sCol(V.Local.i).UCase,=,"YEAR9BID",V.Local.sCol(V.Local.i).UCase,=,"YEAR10QTY",V.Local.sCol(V.Local.i).UCase,=,"YEAR10BID")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.ElseIf(V.Local.sCol(V.Local.i).UCase,=,"NRECHARGES","OR",V.Local.sCol(V.Local.i).UCase,=,"SPECIALCHARGES",V.Local.sCol(V.Local.i).UCase,=,"TOOLINGCHARGES")
+						F.Intrinsic.Control.If(V.Local.sRowData(V.Local.iIndex).Trim,=,"")
+							V.Local.sColData(V.Local.i).Set("0")
+						F.Intrinsic.Control.Else
+							V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+						F.Intrinsic.Control.Endif
+					F.Intrinsic.Control.Else
+						V.Local.sColData(V.Local.i).Set(V.Local.sRowData(V.Local.iIndex).Trim)
+					F.Intrinsic.Control.EndIf
+				F.Intrinsic.Control.EndIf
+			F.Intrinsic.Control.Next(V.Local.i)
+
+			F.Intrinsic.Control.For(V.Local.i,0,V.Local.sCol.UBound,1)
+				F.Intrinsic.Control.If(V.Local.i,=,0)
+					V.Local.sTempRow.Set(V.Local.sColData(V.Local.i).Trim)
+				F.Intrinsic.Control.Else
+					F.Intrinsic.String.Build("{0}*!*{1}",V.Local.sTempRow,V.Local.sColData(V.Local.i).Trim,V.Local.sTempRow)
+				F.Intrinsic.Control.EndIf
+			F.Intrinsic.Control.Next(V.Local.i)
+			
+			F.Intrinsic.Control.If(V.Local.sData.Trim,=,"")
+				V.Local.sData.Set(V.Local.sTempRow)
+			F.Intrinsic.Control.Else
+				F.Intrinsic.String.Build("{0}{1}{2}",V.Local.sData,V.Ambient.NewLine,V.Local.sTempRow,V.Local.sData)
+			F.Intrinsic.Control.EndIf
+			V.Local.sTempRow.Set("")
+		F.Intrinsic.Control.Next(V.Local.iRow)
+		
+		F.Intrinsic.Control.If(V.DataTable.RFQ.Exists)
+			F.Data.DataTable.Close("RFQ")
+		F.Intrinsic.Control.EndIf
+		
+		F.Data.DataTable.CreateFromString("RFQ",V.Local.sData,V.Local.sFieldNames,V.Local.sFieldType,"*!*",V.Ambient.NewLine,True)
+		
+	F.Intrinsic.Control.Case("TXT")
+	
+	F.Intrinsic.Control.Case("CSV")
+		
+F.Intrinsic.Control.EndSelect
+
+F.Intrinsic.Control.If(V.DataTable.RFQ.RowCount--,<>,-1)
+	F.Intrinsic.Control.CallSub(Save_Header)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Process_Files_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275.Cust_RFQ_Import.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustRFQ_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Process_Files.End
+
+Program.Sub.Save_Header.Start
+F.Intrinsic.Control.SetErrorHandler("Save_Header_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sEMAIL.Declare(String,"")
+V.Local.sFLAG_EMAIL_SENT.Declare(String,"")
+V.Local.sDATE_RFQ.Declare(String,"")
+V.Local.i.Declare(Long,0)
+V.Local.sFilter.Declare(String,"")
+V.Local.sSql.Declare(String,"")
+V.Local.sSalesPerson.Declare(String,"")
+V.Local.sBuyer.Declare(String,"")
+V.Local.sRFQ.Declare(String,"")
+V.Local.sRet.Declare(String,"")
+
+F.Data.DataView.Create("RFQ","VRFQ",22,"","")
+F.Intrinsic.Control.If(V.DataTable.disRFQ.Exists)
+	F.Data.DataTable.Close("DisRfq")
+F.Intrinsic.Control.EndIf
+F.Data.DataView.ToDataTableDistinct("RFQ","VRFQ","DisRfq","RFQNo",True)
+F.Data.DataView.Close("RFQ","VRFQ")
+
+V.Local.sEMAIL.Set(V.DataTable.Cust(V.DataTable.Cust.RowCount--).Email!FieldValTrim)
+V.Local.sSalesPerson.Set(V.DataTable.Cust(V.DataTable.Cust.RowCount--).Salesperson!FieldValTrim)
+V.Local.sBuyer.Set(V.DataTable.Cust(V.DataTable.Cust.RowCount--).Buyer!FieldValTrim)
+
+F.Data.DataTable.AddColumn("RFQ","GSSRFQ","String")
+
+F.Intrinsic.Control.For(v.Local.i,0,V.DataTable.DisRfq.RowCount--,1)
+	F.ODBC.Connection!Con.OpenCompanyConnection
+	V.Local.sSQL.Set("Select F_LONG From OP_HEADER Where ID ='401317';")
+	F.ODBC.Connection!con.ExecuteAndReturn(V.Local.sSQL,V.Local.sRet)
+	F.Intrinsic.Control.If(V.Local.sRet,=,"0")
+		V.Local.sRFQ.Set("0000001")
+	F.Intrinsic.Control.Else
+		F.Intrinsic.Math.Add(V.Local.sRet,1,V.Local.sRFQ)
+	F.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.String.Build("Update OP_HEADER SET F_LONG = '{0}' Where ID ='401317';",V.Local.sRFQ.Long,V.Local.sSQL)
+	F.ODBC.Connection!con.Execute(V.Local.sSQL)
+	
+	F.Intrinsic.String.Format(V.Local.sRFQ,"0000000",V.Local.sRFQ)
+	
+	F.Intrinsic.String.Build("RFQNo = '{0}'",V.DataTable.DisRfq(V.Local.i).RFQNO!FieldValTrim,V.Local.sFilter)
+	F.Data.DataView.Create("RFQ","VRFQ",22,V.Local.sFilter,"")
+	F.Data.DataView.SetValue("RFQ","VRFQ",-1,"GSSRFQ",V.Local.sRFQ)
+	F.Intrinsic.String.Format(V.Ambient.Date,"YYYYMMDD",V.Local.sDATE_RFQ)
+	
+	F.Intrinsic.String.Build("INSERT INTO CUST_RFQ_HEADER (RFQ, RFQ_SEQUENCE, EMAIL, NAME, DESCRIPTION, CUSTOMER, SORT_CODE, DATE_ARO, FLAG_EMAIL_SENT, QUOTE, DATE_RFQ, FILLER) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}');",V.Local.sRFQ,"000",V.Local.sEMAIL.PSQLFriendly,V.Global.sName.PSQLFriendly,"",V.Global.sCust,"","00000000","","0",V.Local.sDATE_RFQ,"",V.Local.sSQL)
+	F.ODBC.Connection!Con.Execute(V.Local.sSql)
+	F.Intrinsic.String.Build("INSERT into GCG_6275_CustRFQ (RFQ, LINE_RFQ, SALESPERSON, BUYER, RFQ_DUE_DATE, RFQ_DATE, RFQ_TIME, NOTES) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}');",V.Local.sRFQ,"000",V.Local.sSalesPerson.PSQLFriendly,V.Local.sBuyer.PSQLFriendly,V.Ambient.Date,V.Ambient.Date,V.Ambient.Time,V.DataTable.DisRfq(V.Local.i).RFQNO!FieldValTrim,V.Local.sSQL)
+	F.ODBC.Connection!Con.Execute(V.Local.sSql)
+	F.ODBC.Connection!con.Close
+	F.Intrinsic.Control.CallSub(Save_Lines)
+	F.Data.DataView.Close("RFQ","VRFQ")
+F.Intrinsic.Control.ExitSub
+
+F.Data.DataTable.Close("DisRfq")
+
+F.Intrinsic.Control.Label("Save_Header_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275.Cust_RFQ_Import.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustRFQ_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Save_Header.End
+
+Program.Sub.Save_Lines.Start
+F.Intrinsic.Control.SetErrorHandler("Save_Lines_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.i.Declare(Long,0)
+V.Local.sPart.Declare(String,"")
+V.Local.sRev.Declare(String,"")
+V.Local.sDescription.Declare(String,"")
+V.Local.sDATE_REQUESTED.Declare(String,"")
+V.Local.sFieldMap.Declare(String,"")
+V.Local.sSql.Declare(String,"")
+V.Local.sLine.Declare(String,"")
+
+V.Local.sFieldMap.Set("GSSRFQ@!@RFQ*!*Line@!@Line_Rfq*!*Notes@!@Notes*!*Scenario@!@Scenario*!*Range@!@Range*!*NoBid@!@NoBid*!*PartNumber@!@PartNumber*!*PartDesc@!@PartDesc*!*TargetQty@!@TargetQty*!*UOM@!@UOM*!*LeadTimeDays@!@LeadTimeDays*!*RatePerMonth@!@RatePerMonth*!*OriginCountry@!@OriginCountry*!*ExportClass@!@ExportClass*!*PriceType@!@PriceType*!*CommercialPart@!@CommercialPart*!*ByYear@!@ByYear*!*YearsQuoting@!@YearsQuoting*!*PeriodofPerf@!@PeriodofPerf*!*Year1Qty@!@Year1Qty*!*Year1Bid@!@Year1Bid")
+F.Intrinsic.String.Build("{0}*!*PRIORITY@!@PRIORITY*!*DIFFICULTY@!@DIFFICULTY*!*SCHEDULING@!@SCHEDULING*!*MAT_PROC@!@MAT_PROC*!*Year2Qty@!@Year2Qty*!*Year2Bid@!@Year2Bid*!*Year3Qty@!@Year3Qty*!*Year3Bid@!@Year3Bid*!*Year4Qty@!@Year4Qty*!*Year4Bid@!@Year4Bid*!*Year5Qty@!@Year5Qty*!*Year5Bid@!@Year5Bid*!*Year6Qty@!@Year6Qty*!*Year6Bid@!@Year6Bid*!*Year7Qty@!@Year7Qty*!*Year7Bid@!@Year7Bid*!*Year8Qty@!@Year8Qty*!*Year8Bid@!@Year8Bid*!*Year9Qty@!@Year9Qty*!*Year9Bid@!@Year9Bid*!*Year10Qty@!@Year10Qty*!*Year10Bid@!@Year10Bid*!*NRECharges@!@NRECharges*!*SpecialCharges@!@SpecialCharges*!*ToolingCharges@!@ToolingCharges",V.Local.sFieldMap,V.Local.sFieldMap)
+
+F.Intrinsic.String.Format(V.Ambient.Date,"MMDDYY",V.Local.sDATE_REQUESTED)
+
+F.ODBC.Connection!Con.OpenCompanyConnection
+F.Intrinsic.Control.If(V.DataView.RFQ!VRFQ.RowCount--,<>,-1)
+	F.Intrinsic.Control.For(V.Local.i,0,V.DataView.RFQ!VRFQ.RowCount--,1)
+		F.Intrinsic.Math.Add(V.Local.i,1,V.Local.sLine.Long)
+		F.Intrinsic.String.LPad(V.Local.sLine.Long,"0",3,V.Local.sLine)
+		F.Data.DataView.SetValue("RFQ","VRFQ",V.Local.i,"Line",V.Local.sLine.Trim)
+		'checking if part > 20 if so getting gss part number
+		V.Local.sPart.Set(V.DataView.RFQ!VRFQ(V.Local.i).PartNumber!FieldValTrim)
+		V.Local.sDescription.Set(V.DataView.RFQ!VRFQ(V.Local.i).PartDesc!FieldValTrim)
+		F.Intrinsic.Control.If(V.Local.sPart.Length,>,20)
+			F.Intrinsic.String.Build("Select Top 1 GSS_Part From INV_LXR Where Display_Part = '{0}'",V.Local.sPart,V.Local.sSql)
+			F.ODBC.Connection!Con.ExecuteAndReturn(V.Local.sSql,V.Local.sPart)
+			F.Data.DataView.SetValue("RFQ","VRFQ",V.Local.i,"PartNumber",V.Local.sPart.Trim)
+			V.Local.sRev.Set("")
+		F.Intrinsic.Control.Else
+			F.Intrinsic.Control.If(V.Local.sPart.Length,>,17)
+				F.Intrinsic.String.RPad(V.Local.sPart," ",20,V.Local.sPart)
+				F.Intrinsic.String.Right(V.Local.sPart,3,V.Local.sRev)
+				F.Intrinsic.String.Left(V.Local.sPart,17,V.Local.sPart)
+			F.Intrinsic.Control.Else
+				V.Local.sRev.Set("")
+			F.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.If(V.Local.sDescription.Length,>,30)
+			F.Intrinsic.String.Left(V.Local.sDescription,30,V.Local.sDescription)
+			F.Data.DataView.SetValue("RFQ","VRFQ",V.Local.i,"PartDesc",V.Local.sDescription)
+		F.Intrinsic.Control.EndIf
+		F.Intrinsic.String.Build("INSERT INTO CUST_RFQ_LINES (RFQ, RFQ_SEQUENCE, ROUTER, REV, LOCATION, DESCRIPTION, QUANTITY, DATE_REQUESTED, FLAG_ROUTER_BUILT, COMMENTS, FILLER) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}');",V.DataView.RFQ!VRFQ(V.Local.i).GSSRFQ!FieldValTrim,V.DataView.RFQ!VRFQ(V.Local.i).Line!FieldValTrim,V.Local.sPart,V.Local.sRev,"",V.Local.sDESCRIPTION.PSQLFriendly,V.DataView.RFQ!VRFQ(V.Local.i).TargetQty!FieldValLong,V.Local.sDATE_REQUESTED,"","","",V.Local.sSQL)
+		F.ODBC.Connection!Con.Execute(V.Local.sSql)
+	F.Intrinsic.Control.Next(V.Local.i)
+	
+	F.Data.DataView.ToDataTable("RFQ","VRFQ","SaveRfq")
+	F.Data.DataTable.AddColumn("SaveRfq","PRIORITY",String)
+	F.Data.DataTable.AddColumn("SaveRfq","DIFFICULTY",String)
+	F.Data.DataTable.AddColumn("SaveRfq","SCHEDULING",String)
+	F.Data.DataTable.AddColumn("SaveRfq","MAT_PROC",String)
+	
+	F.Data.DataTable.SetValue("SaveRfq",-1,"PRIORITY","LOW","DIFFICULTY","LOW","SCHEDULING","LOW","MAT_PROC","LOW")
+	F.Data.DataTable.SaveToDB("SaveRfq","Con","GCG_6275_CUSTRFQ","GSSRFQ*!*Line",256,V.Local.sFieldMap)
+	F.Data.DataTable.Close("SaveRfq")
+	
+F.Intrinsic.Control.EndIf
+F.ODBC.Connection!Con.Close
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Save_Lines_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275.Cust_RFQ_Import.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustRFQ_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Save_Lines.End
+
+Program.Sub.cmdCust_Click.Start
+F.Intrinsic.Control.SetErrorHandler("Save_Lines_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sRet.Declare(String)
+V.Local.sSql.Declare(STring)
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+
+F.Intrinsic.UI.Browser(205,"",V.Local.sRet)
+
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.Control.If(V.DataTable.Cust.Exists)
+		F.Data.DataTable.Close("Cust")
+	F.Intrinsic.Control.EndIf
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	F.Intrinsic.String.Build("Select * From GCG_6275_Cust_File Where Customer = '{0}'",V.Local.sRet.Trim,V.Local.sSql)
+	F.ODBC.Connection!Con.OpenCompanyConnection
+	F.Data.DataTable.CreateFromSQL("Cust","con",V.Local.sSql,True)
+	F.ODBC.Connection!Con.Close
+	F.Intrinsic.Control.If(V.DataTable.Cust.RowCount--,=,-1)
+		F.Intrinsic.UI.Msgbox("Selected Customer does not have a file mapped","Attention")
+		F.Data.DataTable.Close("Cust")
+		Gui.FormCustRFQ.txtCust.Text("")
+		V.Global.sCust.Set("")
+		V.Global.sName.Set("")
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	Gui.FormCustRFQ.txtCust.Text(V.Local.sRet.Trim)
+	V.Global.sCust.Set(V.Local.sRet(0).Trim)
+	V.Global.sName.Set(V.Local.sRet(1).Trim)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Save_Lines_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275.Cust_RFQ_Import.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustRFQ_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmdCust_Click.End
