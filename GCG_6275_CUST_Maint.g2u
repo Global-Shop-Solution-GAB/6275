@@ -1,0 +1,779 @@
+Program.Sub.ScreenSU.Start
+Gui.FormCustMaint..Create
+Gui.FormCustMaint..Caption("Customer File Mapper Maintenance")
+Gui.FormCustMaint..Size(11745,8730)
+Gui.FormCustMaint..MinX(0)
+Gui.FormCustMaint..MinY(0)
+Gui.FormCustMaint..Position(0,0)
+Gui.FormCustMaint..BackColor(-2147483633)
+Gui.FormCustMaint..MousePointer(0)
+Gui.FormCustMaint..Event(UnLoad,FormCustMaint_UnLoad)
+Gui.FormCustMaint.lblCust.Create(Label,"Select Customer",True,1455,255,0,150,240,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.txtCust.Create(TextBox,"",True,1800,300,0,150,450,True,0,"Arial",8,-2147483643,1)
+Gui.FormCustMaint.txtCust.Event(GotFocus,Got_Focus)
+Gui.FormCustMaint.cmdCust.Create(Button)
+Gui.FormCustMaint.cmdCust.Size(435,375)
+Gui.FormCustMaint.cmdCust.Position(2100,420)
+Gui.FormCustMaint.cmdCust.Caption("^")
+Gui.FormCustMaint.cmdCust.Event(Click,cmdCust_Click)
+Gui.FormCustMaint.lblBuyer.Create(Label,"Buyer",True,1575,255,0,150,930,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.txtBuyer.Create(TextBox,"",True,1800,300,0,150,1185,True,0,"Arial",8,-2147483643,1)
+Gui.FormCustMaint.txtBuyer.Event(GotFocus,Got_Focus)
+Gui.FormCustMaint.cmdBuyer.Create(Button)
+Gui.FormCustMaint.cmdBuyer.Size(435,375)
+Gui.FormCustMaint.cmdBuyer.Position(2100,1140)
+Gui.FormCustMaint.cmdBuyer.Caption("^")
+Gui.FormCustMaint.cmdBuyer.Event(Click,cmdBuyer_Click)
+Gui.FormCustMaint.lblEmail.Create(Label,"Email",True,1095,255,0,2670,930,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.txtEmail.Create(TextBox,"",True,3915,300,0,2670,1185,True,0,"Arial",8,-2147483643,1)
+Gui.FormCustMaint.txtEmail.Event(GotFocus,Got_Focus)
+Gui.FormCustMaint.lblSort.Create(Label,"Sort",True,1725,255,0,150,1635,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.txtSort.Create(TextBox,"",True,1800,300,0,150,1875,True,0,"Arial",8,-2147483643,1)
+Gui.FormCustMaint.txtSort.Event(GotFocus,Got_Focus)
+Gui.FormCustMaint.lblSP.Create(Label,"Salesperson",True,1935,255,0,2040,1635,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.txtSp.Create(TextBox,"",True,1800,300,0,2040,1875,True,0,"Arial",8,-2147483643,1)
+Gui.FormCustMaint.cmdSP.Create(Button)
+Gui.FormCustMaint.cmdSP.Size(435,375)
+Gui.FormCustMaint.cmdSP.Position(3990,1830)
+Gui.FormCustMaint.cmdSP.Caption("^")
+Gui.FormCustMaint.cmdSP.Event(Click,cmdSP_Click)
+Gui.FormCustMaint.lblRFQNo.Create(Label,"RFQNo",True,1050,255,0,150,2415,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblLine.Create(Label,"Line",True,1050,255,0,150,3120,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblScenario.Create(Label,"Scenario",True,1050,255,0,150,3810,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblRange.Create(Label,"Range",True,1050,255,0,150,4470,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblNoBid.Create(Label,"NoBid",True,1050,255,0,150,5130,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblPartNumber.Create(Label,"PartNumber",True,1050,255,0,150,5790,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblPartDesc.Create(Label,"PartDesc",True,1050,255,0,150,6480,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblTargetQty.Create(Label,"TargetQty",True,1050,255,0,150,7140,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblUOM.Create(Label,"UOM",True,1050,255,0,2040,2415,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblLeadTimeDays.Create(Label,"LeadTimeDays",True,1485,255,0,2040,3120,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.ddlRFQNO.Create(DropDownList)
+Gui.FormCustMaint.ddlRFQNO.Size(1770,330)
+Gui.FormCustMaint.ddlRFQNO.Position(150,2670)
+Gui.FormCustMaint.ddlLine.Create(DropDownList)
+Gui.FormCustMaint.ddlLine.Size(1770,330)
+Gui.FormCustMaint.ddlLine.Position(150,3345)
+Gui.FormCustMaint.ddlScenario.Create(DropDownList)
+Gui.FormCustMaint.ddlScenario.Size(1770,330)
+Gui.FormCustMaint.ddlScenario.Position(150,4020)
+Gui.FormCustMaint.ddlRange.Create(DropDownList)
+Gui.FormCustMaint.ddlRange.Size(1770,330)
+Gui.FormCustMaint.ddlRange.Position(150,4680)
+Gui.FormCustMaint.ddlNoBid.Create(DropDownList)
+Gui.FormCustMaint.ddlNoBid.Size(1770,330)
+Gui.FormCustMaint.ddlNoBid.Position(150,5340)
+Gui.FormCustMaint.ddlPartNumber.Create(DropDownList)
+Gui.FormCustMaint.ddlPartNumber.Size(1770,330)
+Gui.FormCustMaint.ddlPartNumber.Position(150,6015)
+Gui.FormCustMaint.ddlPartDesc.Create(DropDownList)
+Gui.FormCustMaint.ddlPartDesc.Size(1770,330)
+Gui.FormCustMaint.ddlPartDesc.Position(150,6690)
+Gui.FormCustMaint.ddlTargetQty.Create(DropDownList)
+Gui.FormCustMaint.ddlTargetQty.Size(1770,330)
+Gui.FormCustMaint.ddlTargetQty.Position(150,7350)
+Gui.FormCustMaint.ddlUOM.Create(DropDownList)
+Gui.FormCustMaint.ddlUOM.Size(1770,330)
+Gui.FormCustMaint.ddlUOM.Position(2040,2670)
+Gui.FormCustMaint.ddlLeadTimeDays.Create(DropDownList)
+Gui.FormCustMaint.ddlLeadTimeDays.Size(1770,330)
+Gui.FormCustMaint.ddlLeadTimeDays.Position(2040,3345)
+Gui.FormCustMaint.lblRatePerMonth.Create(Label,"RatePerMonth",True,1485,255,0,2040,3810,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblOriginCountry.Create(Label,"OriginCountry",True,1485,255,0,2040,4470,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblExportClass.Create(Label,"ExportClass",True,1485,255,0,2040,5130,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblPriceType.Create(Label,"PriceType",True,1485,255,0,2040,5790,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblCommercialPart.Create(Label,"CommercialPart",True,1485,255,0,2040,6480,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblByYear.Create(Label,"ByYear",True,1485,255,0,2040,7140,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.ddlRatePerMonth.Create(DropDownList)
+Gui.FormCustMaint.ddlRatePerMonth.Size(1770,330)
+Gui.FormCustMaint.ddlRatePerMonth.Position(2040,4020)
+Gui.FormCustMaint.ddlOriginCountry.Create(DropDownList)
+Gui.FormCustMaint.ddlOriginCountry.Size(1770,330)
+Gui.FormCustMaint.ddlOriginCountry.Position(2040,4680)
+Gui.FormCustMaint.ddlExportClass.Create(DropDownList)
+Gui.FormCustMaint.ddlExportClass.Size(1770,330)
+Gui.FormCustMaint.ddlExportClass.Position(2040,5340)
+Gui.FormCustMaint.ddlPriceType.Create(DropDownList)
+Gui.FormCustMaint.ddlPriceType.Size(1770,330)
+Gui.FormCustMaint.ddlPriceType.Position(2040,6015)
+Gui.FormCustMaint.ddlCommericalPart.Create(DropDownList)
+Gui.FormCustMaint.ddlCommericalPart.Size(1770,330)
+Gui.FormCustMaint.ddlCommericalPart.Position(2040,6690)
+Gui.FormCustMaint.ddlByYear.Create(DropDownList)
+Gui.FormCustMaint.ddlByYear.Size(1770,330)
+Gui.FormCustMaint.ddlByYear.Position(2040,7350)
+Gui.FormCustMaint.lblYearsQuoting.Create(Label,"YearsQuoting",True,1260,255,0,3960,2415,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblPeriodofPerf.Create(Label,"PeriodofPerf",True,1260,255,0,3960,3120,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear1Qty.Create(Label,"Year1Qty",True,1260,255,0,3960,3810,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear1Bid.Create(Label,"Year1Bid",True,1260,255,0,3960,4470,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear2Qty.Create(Label,"Year2Qty",True,1260,255,0,3960,5130,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear2Bid.Create(Label,"Year2Bid",True,1260,255,0,3960,5790,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear3Qty.Create(Label,"Year3Qty",True,1260,255,0,3960,6480,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear3Bid.Create(Label,"Year3Bid",True,1260,255,0,3960,7140,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.ddlYearsQuoting.Create(DropDownList)
+Gui.FormCustMaint.ddlYearsQuoting.Size(1770,330)
+Gui.FormCustMaint.ddlYearsQuoting.Position(3960,2670)
+Gui.FormCustMaint.ddlPeriodofPerf.Create(DropDownList)
+Gui.FormCustMaint.ddlPeriodofPerf.Size(1770,330)
+Gui.FormCustMaint.ddlPeriodofPerf.Position(3960,3345)
+Gui.FormCustMaint.ddlYear1Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear1Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear1Qty.Position(3960,4020)
+Gui.FormCustMaint.ddlYear1Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear1Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear1Bid.Position(3960,4680)
+Gui.FormCustMaint.ddlYear2Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear2Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear2Qty.Position(3960,5340)
+Gui.FormCustMaint.ddlYear2Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear2Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear2Bid.Position(3960,6015)
+Gui.FormCustMaint.ddlYear3Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear3Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear3Qty.Position(3960,6690)
+Gui.FormCustMaint.ddlYear3Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear3Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear3Bid.Position(3960,7350)
+Gui.FormCustMaint.lblYear4Qty.Create(Label,"Year4Qty",True,1260,255,0,5880,2415,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear4Bid.Create(Label,"Year4Bid",True,1260,255,0,5880,3120,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear5Qty.Create(Label,"Year5Qty",True,1260,255,0,5880,3810,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear5Bid.Create(Label,"Year5Bid",True,1260,255,0,5880,4470,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear6Qty.Create(Label,"Year6Qty",True,1260,255,0,5880,5130,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear6Bid.Create(Label,"Year6Bid",True,1260,255,0,5880,5790,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear7Qty.Create(Label,"Year7Qty",True,1260,255,0,5880,6480,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear7Bid.Create(Label,"Year7Bid",True,1260,255,0,5880,7140,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.ddlYear4Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear4Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear4Qty.Position(5895,2670)
+Gui.FormCustMaint.ddlYear4Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear4Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear4Bid.Position(5895,3345)
+Gui.FormCustMaint.ddlYear5Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear5Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear5Qty.Position(5895,4020)
+Gui.FormCustMaint.ddlYear5Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear5Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear5Bid.Position(5895,4680)
+Gui.FormCustMaint.ddlYear6Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear6Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear6Qty.Position(5895,5340)
+Gui.FormCustMaint.ddlYear6Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear6Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear6Bid.Position(5895,6015)
+Gui.FormCustMaint.ddlYear7Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear7Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear7Qty.Position(5895,6690)
+Gui.FormCustMaint.ddlYear7Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear7Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear7Bid.Position(5895,7350)
+Gui.FormCustMaint.lblYear8Qty.Create(Label,"Year8Qty",True,1260,255,0,7815,2415,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear8Bid.Create(Label,"Year8Bid",True,1260,255,0,7815,3120,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear9Qty.Create(Label,"Year9Qty",True,1260,255,0,7815,3810,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear9Bid.Create(Label,"Year9Bid",True,1260,255,0,7815,4470,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear10Qty.Create(Label,"Year10Qty",True,1260,255,0,7815,5130,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblYear10Bid.Create(Label,"Year10Bid",True,1260,255,0,7815,5790,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblNRECharges.Create(Label,"NRECharges",True,1260,255,0,7815,6480,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblSpecialCharges.Create(Label,"SpecialCharges",True,1260,255,0,7815,7140,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblToolingCharges.Create(Label,"ToolingCharges",True,1260,255,0,9720,2415,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblNotes.Create(Label,"Notes",True,1260,255,0,9720,3120,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.ddlYear8Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear8Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear8Qty.Position(7815,2670)
+Gui.FormCustMaint.ddlYear8Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear8Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear8Bid.Position(7815,3345)
+Gui.FormCustMaint.ddlYear9Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear9Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear9Qty.Position(7815,4020)
+Gui.FormCustMaint.ddlYear9Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear9Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear9Bid.Position(7815,4680)
+Gui.FormCustMaint.ddlYear10Qty.Create(DropDownList)
+Gui.FormCustMaint.ddlYear10Qty.Size(1770,330)
+Gui.FormCustMaint.ddlYear10Qty.Position(7815,5340)
+Gui.FormCustMaint.ddlYear10Bid.Create(DropDownList)
+Gui.FormCustMaint.ddlYear10Bid.Size(1770,330)
+Gui.FormCustMaint.ddlYear10Bid.Position(7815,6015)
+Gui.FormCustMaint.ddlNRECharges.Create(DropDownList)
+Gui.FormCustMaint.ddlNRECharges.Size(1770,330)
+Gui.FormCustMaint.ddlNRECharges.Position(7815,6690)
+Gui.FormCustMaint.ddlSpecialCharges.Create(DropDownList)
+Gui.FormCustMaint.ddlSpecialCharges.Size(1770,330)
+Gui.FormCustMaint.ddlSpecialCharges.Position(7815,7350)
+Gui.FormCustMaint.ddlToolingCharges.Create(DropDownList)
+Gui.FormCustMaint.ddlToolingCharges.Size(1770,330)
+Gui.FormCustMaint.ddlToolingCharges.Position(9720,2670)
+Gui.FormCustMaint.ddlNotes.Create(DropDownList)
+Gui.FormCustMaint.ddlNotes.Size(1770,330)
+Gui.FormCustMaint.ddlNotes.Position(9720,3345)
+Gui.FormCustMaint.cmdSave.Create(Button)
+Gui.FormCustMaint.cmdSave.Size(855,375)
+Gui.FormCustMaint.cmdSave.Position(150,7875)
+Gui.FormCustMaint.cmdSave.Caption("Save")
+Gui.FormCustMaint.cmdSave.Event(Click,cmdSave_Click)
+Gui.FormCustMaint.lblFileType.Create(Label,"File Type",True,1110,255,0,4095,240,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.ddlFileType.Create(DropDownList)
+Gui.FormCustMaint.ddlFileType.Size(1095,330)
+Gui.FormCustMaint.ddlFileType.Position(4095,450)
+Gui.FormCustMaint.ddlFileType.Event(Change,ddlFileType_Change)
+Gui.FormCustMaint.lblRow.Create(Label,"Start At Row",True,1305,255,0,2700,240,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.txtRow.Create(TextBox,"",True,1215,300,0,2715,450,True,0,"Arial",8,-2147483643,1)
+Gui.FormCustMaint.txtRow.NumericOnly(2)
+Gui.FormCustMaint.txtRow.Event(GotFocus,Got_Focus)
+Gui.FormCustMaint.lblDel.Create(Label,"Delimeter",False,1170,255,0,5385,240,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.ddlDel.Create(DropDownList)
+Gui.FormCustMaint.ddlDel.Size(1095,330)
+Gui.FormCustMaint.ddlDel.Position(5385,450)
+Gui.FormCustMaint.ddlDel.Event(Change,ddlDel_Change)
+Gui.FormCustMaint.ddlDel.Visible(False)
+Gui.FormCustMaint.lblSpec.Create(Label,"Special Delimeter",False,1455,255,0,6720,255,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.txtSpec.Create(TextBox,"",False,1215,300,0,6720,465,True,0,"Arial",8,-2147483643,1)
+Gui.FormCustMaint.txtSpec.MaxLength(5)
+Gui.FormCustMaint.txtSpec.Event(GotFocus,Got_Focus)
+Gui.FormCustMaint.lblWarn.Create(Label,"**Make sure Data in the Columns do not include the Delimeter.",False,4770,255,0,4095,930,True,0,"Arial",8,-2147483633,0)
+Gui.FormCustMaint.lblWarn.ForeColor(255)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+Gui.FormCustMaint.txtRow.Text(1)
+
+F.Intrinsic.Control.CallSub(Set_DDL)
+
+Gui.FormCustMaint..Show
+Gui.FormCustMaint..AlwaysOnTop(True)
+Gui.FormCustMaint..AlwaysOnTop(False)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Main.End
+
+Program.Sub.FormCustMaint_UnLoad.Start
+F.Intrinsic.Control.SetErrorHandler("FormCustMaint_UnLoad_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("FormCustMaint_UnLoad_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.Control.End
+Function.Intrinsic.Control.EndIf
+Program.Sub.FormCustMaint_UnLoad.End
+
+Program.Sub.cmdCust_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmdCust_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sRet.Declare(String,"")
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+
+F.Intrinsic.UI.Browser(205,"Select Customer",V.Local.sRet)
+
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.Control.CallSub(ClearScreen)
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	Gui.FormCustMaint.txtCust.Text(V.Local.sRet.Trim)
+	F.Intrinsic.Control.CallSub(Pop_Screen)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdCust_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmdCust_Click.End
+
+Program.Sub.cmdBuyer_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmdBuyer_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sSQL.Declare(String,"")
+V.Local.sColumns.Declare(String,"")
+V.Local.sWidths.Declare(String,"")
+V.Local.sRet.Declare(String,"")
+
+F.Intrinsic.String.Split("Buyer*!*Email","*!*",V.Local.sColumns)
+F.Intrinsic.String.Split("1000*!*1500","*!*",V.Local.sWidths)
+
+F.Intrinsic.String.Build("Select NAME, Email1 From V_CONTACT Where CUST = '{0}' and TYPE <> 'V' and ACTIVE = '1'",V.Screen.FormCustMaint!txtCust.Text,V.Local.sSQL)
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+
+F.ODBC.Connection!Con.OpenCompanyConnection
+F.Intrinsic.UI.Browser("Buyer","con",V.Local.sSQL,V.Local.sColumns,V.Local.sWidths,V.Local.sRet)
+F.ODBC.Connection!Con.Close
+
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	Gui.FormCustMaint.txtBuyer.Text(V.Local.sRet.Trim)
+	Gui.FormCustMaint.txtEmail.Text(V.Local.sRet(1).Trim)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdBuyer_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmdBuyer_Click.End
+
+Program.Sub.ddlFileType_Change.Start
+F.Intrinsic.Control.SetErrorHandler("ddlFileType_Change_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.Intrinsic.Control.SelectCase(V.Screen.FormCustMaint!ddlFileType.Text)
+	F.Intrinsic.Control.Case("TXT")
+		Gui.FormCustMaint.lblDel.Visible(True)
+		Gui.FormCustMaint.ddlDel.Visible(True)
+		Gui.FormCustMaint.ddlDel.ClearItems
+		Gui.FormCustMaint.ddlDel.AddItem("Comma","Comma")
+		Gui.FormCustMaint.ddlDel.AddItem("Tab","Tab")
+		Gui.FormCustMaint.ddlDel.AddItem("Special","Special")
+		Gui.FormCustMaint.lblWarn.Visible(True)
+		
+	F.Intrinsic.Control.CaseAny("XLSX","XLS")
+		Gui.FormCustMaint.lblDel.Visible(False)
+		Gui.FormCustMaint.ddlDel.Visible(False)
+		Gui.FormCustMaint.ddlDel.ClearItems
+		Gui.FormCustMaint.lblWarn.Visible(False)
+		
+	F.Intrinsic.Control.Case("CSV")
+		Gui.FormCustMaint.lblDel.Visible(True)
+		Gui.FormCustMaint.ddlDel.Visible(True)
+		Gui.FormCustMaint.ddlDel.ClearItems
+		Gui.FormCustMaint.ddlDel.AddItem("Comma","Comma")
+		Gui.FormCustMaint.ddlDel.AddItem("Tab","Tab")
+		Gui.FormCustMaint.lblWarn.Visible(True)
+		
+F.Intrinsic.Control.EndSelect
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("ddlFileType_Change_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.ddlFileType_Change.End
+
+Program.Sub.ddlDel_Change.Start
+F.Intrinsic.Control.SetErrorHandler("ddlDel_Change_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.Intrinsic.Control.SelectCase(V.Screen.FormCustMaint!ddlDel.Text)
+	F.Intrinsic.Control.Case("Special")
+		Gui.FormCustMaint.txtSpec.Text("")
+		Gui.FormCustMaint.txtSpec.Visible(True)
+		Gui.FormCustMaint.lblSpec.Visible(True)
+		
+	F.Intrinsic.Control.CaseElse
+		Gui.FormCustMaint.txtSpec.Text("")
+		Gui.FormCustMaint.txtSpec.Visible(False)
+		Gui.FormCustMaint.lblSpec.Visible(False)
+		
+F.Intrinsic.Control.EndSelect
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("ddlDel_Change_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.ddlDel_Change.End
+
+Program.Sub.cmdSP_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmdSP_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sSQL.Declare(String,"")
+V.Local.sColumns.Declare(String,"")
+V.Local.sWidths.Declare(String,"")
+V.Local.sRet.Declare(String,"")
+
+F.Intrinsic.String.Split("Salesperson","*!*",V.Local.sColumns)
+F.Intrinsic.String.Split("1000","*!*",V.Local.sWidths)
+
+V.Local.sSQL.Set("Select SALESPERSON from V_SALESPEOPLE Order by SALESPERSON")
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+
+F.ODBC.Connection!Con.OpenCompanyConnection
+F.Intrinsic.UI.Browser("Salesperson","con",V.Local.sSQL,V.Local.sColumns,V.Local.sWidths,V.Local.sRet)
+F.ODBC.Connection!Con.Close
+
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	Gui.FormCustMaint.txtSp.Text(V.Local.sRet.Trim)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdSP_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmdSP_Click.End
+
+Program.Sub.Got_Focus.Start
+F.Intrinsic.Control.SetErrorHandler("Got_Focus_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+Gui.FormCustMaint.[V.Args.ControlName].SelectAll
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Got_Focus_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Got_Focus.End
+
+Program.Sub.Set_DDL.Start
+F.Intrinsic.Control.SetErrorHandler("Set_DDL_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sCol.Declare(String,"*!*")
+V.Local.i.Declare(Long,0)
+
+F.ODBC.Connection!con.OpenCompanyConnection
+F.Data.DataTable.CreateFromSQL("CustFile","con","Select * From GCG_6275_CUST_FILE Where Customer = '-1'",True)
+F.ODBC.Connection!con.Close
+
+F.Data.Dictionary.Create("Col")
+F.Data.Dictionary.AddItem("Col","0"," ")
+F.Intrinsic.Control.For(V.Local.i,1,42,1)
+	F.Intrinsic.String.Build("Column {0}",V.Local.i,V.Local.sCol)
+	F.Data.Dictionary.AddItem("Col",V.Local.i,V.Local.sCol)
+F.Intrinsic.Control.Next(V.Local.i)
+
+Gui.FormCustMaint.ddlFileType.AddItem("XLSX","XLSX")
+Gui.FormCustMaint.ddlFileType.AddItem("XLS","XLS")
+Gui.FormCustMaint.ddlFileType.AddItem("TXT","TXT")
+Gui.FormCustMaint.ddlFileType.AddItem("CSV","CSV")
+
+Gui.FormCustMaint.ddlByYear.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlCommericalPart.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlExportClass.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlLeadTimeDays.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlLine.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlNoBid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlNotes.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlNRECharges.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlOriginCountry.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlPartDesc.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlPartNumber.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlPeriodofPerf.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlPriceType.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlRange.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlRatePerMonth.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlRFQNO.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlScenario.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlSpecialCharges.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlTargetQty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlToolingCharges.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlUOM.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear1Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear2Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear3Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear4Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear5Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear6Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear7Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear8Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear9Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear10Qty.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear1Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear2Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear3Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear4Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear5Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear6Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear7Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear8Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear9Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYear10Bid.additems("Dictionary","Col")
+Gui.FormCustMaint.ddlYearsQuoting.additems("Dictionary","Col")
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Set_DDL_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Set_DDL.End
+
+Program.Sub.ClearScreen.Start
+F.Intrinsic.Control.SetErrorHandler("ClearScreen_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.Intrinsic.Control.BlockEvents
+
+Gui.FormCustMaint.txtBuyer.Text("")
+Gui.FormCustMaint.txtEmail.Text("")
+Gui.FormCustMaint.txtRow.Text(1)
+Gui.FormCustMaint.txtSort.Text("")
+Gui.FormCustMaint.txtSp.Text("")
+
+Gui.FormCustMaint.lblDel.Visible(False)
+Gui.FormCustMaint.ddlDel.Visible(False)
+Gui.FormCustMaint.ddlDel.ClearItems
+Gui.FormCustMaint.lblWarn.Visible(False)
+		
+Gui.FormCustMaint.txtSpec.Text("")
+Gui.FormCustMaint.txtSpec.Visible(False)
+Gui.FormCustMaint.lblSpec.Visible(False)
+		
+Gui.FormCustMaint.ddlFileType.ListIndex(0)
+Gui.FormCustMaint.ddlByYear.ListIndex(0)
+Gui.FormCustMaint.ddlCommericalPart.ListIndex(0)
+Gui.FormCustMaint.ddlExportClass.ListIndex(0)
+Gui.FormCustMaint.ddlLeadTimeDays.ListIndex(0)
+Gui.FormCustMaint.ddlLine.ListIndex(0)
+Gui.FormCustMaint.ddlNoBid.ListIndex(0)
+Gui.FormCustMaint.ddlNotes.ListIndex(0)
+Gui.FormCustMaint.ddlNRECharges.ListIndex(0)
+Gui.FormCustMaint.ddlOriginCountry.ListIndex(0)
+Gui.FormCustMaint.ddlPartDesc.ListIndex(0)
+Gui.FormCustMaint.ddlPartNumber.ListIndex(0)
+Gui.FormCustMaint.ddlPeriodofPerf.ListIndex(0)
+Gui.FormCustMaint.ddlPriceType.ListIndex(0)
+Gui.FormCustMaint.ddlRange.ListIndex(0)
+Gui.FormCustMaint.ddlRatePerMonth.ListIndex(0)
+Gui.FormCustMaint.ddlRFQNO.ListIndex(0)
+Gui.FormCustMaint.ddlScenario.ListIndex(0)
+Gui.FormCustMaint.ddlSpecialCharges.ListIndex(0)
+Gui.FormCustMaint.ddlTargetQty.ListIndex(0)
+Gui.FormCustMaint.ddlToolingCharges.ListIndex(0)
+Gui.FormCustMaint.ddlUOM.ListIndex(0)
+Gui.FormCustMaint.ddlYear1Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear2Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear3Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear4Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear5Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear6Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear7Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear8Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear9Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear10Qty.ListIndex(0)
+Gui.FormCustMaint.ddlYear1Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYear2Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYear3Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYear4Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYear5Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYear6Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYear7Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYear8Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYear9Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYear10Bid.ListIndex(0)
+Gui.FormCustMaint.ddlYearsQuoting.ListIndex(0)
+
+F.Intrinsic.Control.UnBlockEvents
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("ClearScreen_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.ClearScreen.End
+
+Program.Sub.cmdSave_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmdSave_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sFieldMap.Declare(String,"")
+
+V.Local.sFieldMap.Set("Customer@!@Customer*!*Start_Row@!@Start_Row*!*File_Type@!@File_Type*!*Delimeter@!@Delimeter*!*Spec_Del@!@Spec_Del*!*Buyer@!@Buyer*!*Email@!@Email*!*Sort@!@Sort*!*Salesperson@!@SalesPerson")
+F.Intrinsic.String.Build("{0}*!*RfqNo@!@RfqNo*!*Line@!@Line*!*Scenario@!@Scenario*!*Range@!@Range*!*NoBid@!@NoBid*!*PartNumber@!@PartNumber*!*PartDesc@!@PartDesc*!*TargetQty@!@TargetQty",V.Local.sFieldMap,V.Local.sFieldMap)
+F.Intrinsic.String.Build("{0}*!*UOM@!@UOM*!*LeadTimeDays@!@LeadTimeDays*!*RatePerMonth@!@RatePerMonth*!*OriginCountry@!@OriginCountry*!*ExportClass@!@ExportClass*!*PriceType@!@PriceType*!*CommercialPart@!@CommercialPart",V.Local.sFieldMap,V.Local.sFieldMap)
+F.Intrinsic.String.Build("{0}*!*ByYear@!@ByYear*!*YearsQuoting@!@YearsQuoting*!*PeriodofPerf@!@PeriodofPerf*!*Year1Qty@!@Year1Qty*!*Year1Bid@!@Year1Bid*!*Year2Qty@!@Year2Qty*!*Year2Bid@!@Year2Bid*!*Year3Qty@!@Year3Qty*!*Year3Bid@!@Year3Bid",V.Local.sFieldMap,V.Local.sFieldMap)
+F.Intrinsic.String.Build("{0}*!*Year4Qty@!@Year4Qty*!*Year4Bid@!@Year4Bid*!*Year5Qty@!@Year5Qty*!*Year5Bid@!@Year5Bid*!*Year6Qty@!@Year6Qty*!*Year6Bid@!@Year6Bid*!*Year7Qty@!@Year7Qty*!*Year7Bid@!@Year7Bid*!*Year8Qty@!@Year8Qty*!*Year8Bid@!@Year8Bid*!*Year9Qty@!@Year9Qty*!*Year9Bid@!@Year9Bid*!*Year10Qty@!@Year10Qty*!*Year10Bid@!@Year10Bid",V.Local.sFieldMap,V.Local.sFieldMap)
+F.Intrinsic.String.Build("{0}*!*NRECharges@!@NRECharges*!*SpecialCharges@!@SpecialCharges*!*ToolingCharges@!@ToolingCharges*!*Notes@!@Notes",V.Local.sFieldMap,V.Local.sFieldMap)
+F.Data.DataTable.DeleteRow("CustFile")
+F.Data.DataTable.AcceptChanges("CustFile")
+
+F.Intrinsic.Control.If(V.Screen.FormCustMaint!txtCust.Text,<>,"")
+	F.Data.DataTable.AddRow("CustFile","Customer",V.Screen.FormCustMaint!txtCust.Text,"Start_Row",V.Screen.FormCustMaint!txtRow.Text,"File_Type",V.Screen.FormCustMaint!ddlFileType.Text,"Delimeter",V.Screen.FormCustMaint!ddlDel.Text,"Spec_Del",V.Screen.FormCustMaint!txtSpec.Text,"Buyer",V.Screen.FormCustMaint!txtBuyer.Text,"Email",V.Screen.FormCustMaint!txtEmail.Text,"Sort",V.Screen.FormCustMaint!txtSort.Text,"Salesperson",V.Screen.FormCustMaint!txtSp.Text)
+	F.Data.DataTable.SetValue("CustFile",V.DataTable.CustFile.RowCount--,"RfqNo",V.Screen.FormCustMaint!ddlRFQNO.Text,"Line",V.Screen.FormCustMaint!ddlLine.Text,"Scenario",V.Screen.FormCustMaint!ddlScenario.Text,"Range",V.Screen.FormCustMaint!ddlRange.Text,"NoBid",V.Screen.FormCustMaint!ddlNoBid.Text,"PartNumber",V.Screen.FormCustMaint!ddlPartNumber.Text,"PartDesc",V.Screen.FormCustMaint!ddlPartDesc.Text,"TargetQty",V.Screen.FormCustMaint!ddlTargetQty.Text)
+	F.Data.DataTable.SetValue("CustFile",V.DataTable.CustFile.RowCount--,"UOM",V.Screen.FormCustMaint!ddlUOM.Text,"LeadTimeDays",V.Screen.FormCustMaint!ddlLeadTimeDays.Text,"RatePerMonth",V.Screen.FormCustMaint!ddlRatePerMonth.Text,"OriginCountry",V.Screen.FormCustMaint!ddlOriginCountry.Text,"ExportClass",V.Screen.FormCustMaint!ddlExportClass.Text,"PriceType",V.Screen.FormCustMaint!ddlPriceType.Text,"CommercialPart",V.Screen.FormCustMaint!ddlCommericalPart.Text)
+	F.Data.DataTable.SetValue("CustFile",V.DataTable.CustFile.RowCount--,"ByYear",V.Screen.FormCustMaint!ddlByYear.Text,"YearsQuoting",V.Screen.FormCustMaint!ddlYearsQuoting.Text,"PeriodofPerf",V.Screen.FormCustMaint!ddlPeriodofPerf.Text,"Year1Qty",V.Screen.FormCustMaint!ddlYear1Qty.Text,"Year1Bid",V.Screen.FormCustMaint!ddlYear1Bid.Text,"Year2Qty",V.Screen.FormCustMaint!ddlYear2Qty.Text,"Year2Bid",V.Screen.FormCustMaint!ddlYear2Bid.Text,"Year3Qty",V.Screen.FormCustMaint!ddlYear3Qty.Text,"Year3Bid",V.Screen.FormCustMaint!ddlYear3Bid.Text)
+	F.Data.DataTable.SetValue("CustFile",V.DataTable.CustFile.RowCount--,"Year4Qty",V.Screen.FormCustMaint!ddlYear4Qty.Text,"Year4Bid",V.Screen.FormCustMaint!ddlYear4Bid.Text,"Year5Qty",V.Screen.FormCustMaint!ddlYear5Qty.Text,"Year5Bid",V.Screen.FormCustMaint!ddlYear5Bid.Text,"Year6Qty",V.Screen.FormCustMaint!ddlYear6Qty.Text,"Year6Bid",V.Screen.FormCustMaint!ddlYear6Bid.Text,"Year7Qty",V.Screen.FormCustMaint!ddlYear7Qty.text,"Year7Bid",V.Screen.FormCustMaint!ddlYear7Bid.Text)
+	F.Data.DataTable.SetValue("CustFile",V.DataTable.CustFile.RowCount--,"Year8Qty",V.Screen.FormCustMaint!ddlYear8Qty.Text,"Year8Bid",v.Screen.FormCustMaint!ddlYear8Bid.Text,"Year9Qty",V.Screen.FormCustMaint!ddlYear9Qty.Text,"Year9Bid",V.Screen.FormCustMaint!ddlYear9Bid.Text,"Year10Qty",V.Screen.FormCustMaint!ddlYear10Qty.Text,"Year10Bid",V.Screen.FormCustMaint!ddlYear10Bid.Text,"NRECharges",V.Screen.FormCustMaint!ddlNRECharges.Text,"SpecialCharges",V.Screen.FormCustMaint!ddlSpecialCharges.Text,"ToolingCharges",V.Screen.FormCustMaint!ddlToolingCharges.Text,"Notes",V.Screen.FormCustMaint!ddlNotes.Text)
+	
+	F.ODBC.Connection!con.OpenCompanyConnection
+	F.Data.DataTable.SaveToDB("CustFile","con","GCG_6275_CUST_FILE","Customer",256,V.Local.sFieldMap)
+	F.Intrinsic.UI.Msgbox("Customer Info Saved..........")
+	F.ODBC.Connection!Con.Close
+	F.Data.DataTable.DeleteRow("CustFile")
+	F.Data.DataTable.AcceptChanges("CustFile")
+F.Intrinsic.Control.Else
+	F.Intrinsic.UI.Msgbox("Select a Customer","Attention")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdSave_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmdSave_Click.End
+
+Program.Sub.Pop_Screen.Start
+F.Intrinsic.Control.SetErrorHandler("Pop_Screen_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sSql.Declare(String,"")
+
+F.Intrinsic.Control.BlockEvents
+F.ODBC.Connection!con.OpenCompanyConnection
+F.Intrinsic.String.Build("Select * From GCG_6275_CUST_FILE Where Customer = '{0}'",V.Screen.FormCustMaint!txtCust.Text,V.Local.sSql)
+F.Data.DataTable.CreateFromSQL("CustTemp","con",V.Local.sSql,True)
+F.ODBC.Connection!con.Close
+
+F.Intrinsic.Control.If(V.DataTable.CustTemp.RowCount--,<>,-1)
+	Gui.FormCustMaint.txtBuyer.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Buyer!FieldValTrim)
+	Gui.FormCustMaint.txtEmail.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Email!FieldValTrim)
+	Gui.FormCustMaint.txtRow.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Start_Row!FieldValLong)
+	Gui.FormCustMaint.txtSort.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Sort!FieldValTrim)
+	Gui.FormCustMaint.txtSp.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).SalesPerson!FieldValTrim)
+	
+	Gui.FormCustMaint.ddlFileType.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).File_Type!FieldValTrim)
+	F.Intrinsic.Control.If(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).File_Type!FieldValTrim,=,"TXT")
+		Gui.FormCustMaint.lblDel.Visible(True)
+		Gui.FormCustMaint.ddlDel.Visible(True)
+		Gui.FormCustMaint.ddlDel.ClearItems
+		Gui.FormCustMaint.ddlDel.AddItem("Comma","Comma")
+		Gui.FormCustMaint.ddlDel.AddItem("Tab","Tab")
+		Gui.FormCustMaint.ddlDel.AddItem("Special","Special")
+		Gui.FormCustMaint.lblWarn.Visible(True)
+	F.Intrinsic.Control.ElseIf(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).File_Type!FieldValTrim,=,"CSV")
+		Gui.FormCustMaint.lblDel.Visible(True)
+		Gui.FormCustMaint.ddlDel.Visible(True)
+		Gui.FormCustMaint.ddlDel.ClearItems
+		Gui.FormCustMaint.ddlDel.AddItem("Comma","Comma")
+		Gui.FormCustMaint.ddlDel.AddItem("Tab","Tab")
+		Gui.FormCustMaint.lblWarn.Visible(True)
+	F.Intrinsic.Control.Else
+		Gui.FormCustMaint.ddlDel.ClearItems
+		Gui.FormCustMaint.ddlDel.Visible(False)
+		Gui.FormCustMaint.lblDel.Visible(False)
+		Gui.FormCustMaint.lblWarn.Visible(False)
+	F.Intrinsic.Control.EndIf
+	
+	Gui.FormCustMaint.ddlDel.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Delimeter!FieldValTrim)
+	
+	Gui.FormCustMaint.txtSpec.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Spec_Del!FieldValTrim)
+	F.Intrinsic.Control.If(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Delimeter!FieldValTrim,=,"Special")
+		Gui.FormCustMaint.txtSpec.Visible(True)
+		Gui.FormCustMaint.lblSpec.Visible(True)
+	F.Intrinsic.Control.Else
+		Gui.FormCustMaint.txtSpec.Visible(False)
+		Gui.FormCustMaint.lblSpec.Visible(False)
+	F.Intrinsic.Control.EndIf
+	
+	Gui.FormCustMaint.ddlFileType.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).File_Type!FieldValTrim)
+	Gui.FormCustMaint.ddlByYear.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).ByYear!FieldValTrim)
+	Gui.FormCustMaint.ddlCommericalPart.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).CommercialPart!FieldValTrim)
+	Gui.FormCustMaint.ddlExportClass.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).ExportClass!FieldValTrim)
+	Gui.FormCustMaint.ddlLeadTimeDays.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).LeadTimeDays!FieldValTrim)
+	Gui.FormCustMaint.ddlLine.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Line!FieldValTrim)
+	Gui.FormCustMaint.ddlNoBid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).NoBid!FieldValTrim)
+	Gui.FormCustMaint.ddlNotes.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Notes!FieldValTrim)
+	Gui.FormCustMaint.ddlNRECharges.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).NRECharges!FieldValTrim)
+	Gui.FormCustMaint.ddlOriginCountry.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).OriginCountry!FieldValTrim)
+	Gui.FormCustMaint.ddlPartDesc.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).PartDesc!FieldValTrim)
+	Gui.FormCustMaint.ddlPartNumber.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).PartNumber!FieldValTrim)
+	Gui.FormCustMaint.ddlPeriodofPerf.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).PeriodofPerf!FieldValTrim)
+	Gui.FormCustMaint.ddlPriceType.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).PriceType!FieldValTrim)
+	Gui.FormCustMaint.ddlRange.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Range!FieldValTrim)
+	Gui.FormCustMaint.ddlRatePerMonth.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).RatePerMonth!FieldValTrim)
+	Gui.FormCustMaint.ddlRFQNO.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).RFQNo!FieldValTrim)
+	Gui.FormCustMaint.ddlScenario.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Scenario!FieldValTrim)
+	Gui.FormCustMaint.ddlSpecialCharges.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).SpecialCharges!FieldValTrim)
+	Gui.FormCustMaint.ddlTargetQty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).TargetQty!FieldValTrim)
+	Gui.FormCustMaint.ddlToolingCharges.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).ToolingCharges!FieldValTrim)
+	Gui.FormCustMaint.ddlUOM.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).UOM!FieldValTrim)
+	Gui.FormCustMaint.ddlYear1Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year1Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear2Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year2Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear3Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year3Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear4Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year4Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear5Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year5Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear6Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year6Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear7Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year7Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear8Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year8Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear9Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year9Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear10Qty.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year10Qty!FieldValTrim)
+	Gui.FormCustMaint.ddlYear1Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year1Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYear2Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year2Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYear3Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year3Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYear4Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year4Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYear5Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year5Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYear6Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year6Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYear7Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year7Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYear8Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year8Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYear9Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year9Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYear10Bid.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).Year10Bid!FieldValTrim)
+	Gui.FormCustMaint.ddlYearsQuoting.Text(V.DataTable.CustTemp(V.DataTable.CustTemp.RowCount--).YearsQuoting!FieldValTrim)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.UnBlockEvents
+
+F.Data.DataTable.Close("CustTemp")
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Pop_Screen_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_CUST_Maint.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormCustMaint_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Pop_Screen.End
