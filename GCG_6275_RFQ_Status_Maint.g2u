@@ -1,0 +1,288 @@
+Program.Sub.ScreenSU.Start
+Gui.FormRFQStatus..Create
+Gui.FormRFQStatus..Caption("RFQ Status Maintenance")
+Gui.FormRFQStatus..Size(11775,8655)
+Gui.FormRFQStatus..MinX(0)
+Gui.FormRFQStatus..MinY(0)
+Gui.FormRFQStatus..Position(0,0)
+Gui.FormRFQStatus..BackColor(-2147483633)
+Gui.FormRFQStatus..MousePointer(0)
+Gui.FormRFQStatus..Event(UnLoad,FormRFQStatus_UnLoad)
+Gui.FormRFQStatus.GsGridStatus.Create(GsGridControl)
+Gui.FormRFQStatus.GsGridStatus.Size(11325,6915)
+Gui.FormRFQStatus.GsGridStatus.Position(165,765)
+Gui.FormRFQStatus.GsGridStatus.Event(RowCellClick,GsGridStatus_RowCellClick)
+Gui.FormRFQStatus.lblStatus.Create(Label,"Status Msg",True,1935,255,0,150,105,True,0,"Arial",8,-2147483633,0)
+Gui.FormRFQStatus.txtStatus.Create(TextBox,"",True,3105,300,0,165,375,True,0,"Arial",8,-2147483643,1)
+Gui.FormRFQStatus.txtStatus.MaxLength(50)
+Gui.FormRFQStatus.txtStatus.Event(GotFocus,txtStatus_GotFocus)
+Gui.FormRFQStatus.lblDesc.Create(Label,"Description",True,1935,255,0,3330,105,True,0,"Arial",8,-2147483633,0)
+Gui.FormRFQStatus.txtDesc.Create(TextBox,"",True,3105,300,0,3330,360,True,0,"Arial",8,-2147483643,1)
+Gui.FormRFQStatus.txtDesc.MaxLength(50)
+Gui.FormRFQStatus.txtDesc.Event(GotFocus,txtDesc_GotFocus)
+Gui.FormRFQStatus.lblHex.Create(Label,"Hex Color Value",True,1500,255,0,6570,105,True,0,"Arial",8,-2147483633,0)
+Gui.FormRFQStatus.txtHex.Create(TextBox,"",True,1350,300,0,6570,360,True,0,"Arial",8,-2147483643,1)
+Gui.FormRFQStatus.txtHex.MaxLength(7)
+Gui.FormRFQStatus.txtHex.Event(GotFocus,txtHex_GotFocus)
+Gui.FormRFQStatus.cmdAdd.Create(Button)
+Gui.FormRFQStatus.cmdAdd.Size(855,375)
+Gui.FormRFQStatus.cmdAdd.Position(8055,330)
+Gui.FormRFQStatus.cmdAdd.Caption("Add")
+Gui.FormRFQStatus.cmdAdd.Event(Click,cmdAdd_Click)
+Gui.FormRFQStatus.cmdSave.Create(Button)
+Gui.FormRFQStatus.cmdSave.Size(855,375)
+Gui.FormRFQStatus.cmdSave.Position(165,7740)
+Gui.FormRFQStatus.cmdSave.Caption("Save")
+Gui.FormRFQStatus.cmdSave.Event(Click,cmdSave_Click)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.Intrinsic.Control.CallSub(Get_Data)
+F.Intrinsic.Control.CallSub(Set_Prop)
+
+Gui.FormRFQStatus..Show
+Gui.FormRFQStatus..AlwaysOnTop(True)
+Gui.FormRFQStatus..AlwaysOnTop(False)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_RFQ_Status.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormRFQStatus_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Main.End
+
+Program.Sub.txtStatus_GotFocus.Start
+F.Intrinsic.Control.SetErrorHandler("txtStatus_GotFocus_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+Gui.FormRFQStatus.txtStatus.SelectAll
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("txtStatus_GotFocus_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_RFQ_Status.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormRFQStatus_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.txtStatus_GotFocus.End
+
+Program.Sub.txtDesc_GotFocus.Start
+F.Intrinsic.Control.SetErrorHandler("txtDesc_GotFocus_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+Gui.FormRFQStatus.txtDesc.SelectAll
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("txtDesc_GotFocus_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_RFQ_Status.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormRFQStatus_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.txtDesc_GotFocus.End
+
+Program.Sub.txtHex_GotFocus.Start
+F.Intrinsic.Control.SetErrorHandler("txtHex_GotFocus_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+Gui.FormRFQStatus.txtHex.SelectAll
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("txtHex_GotFocus_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_RFQ_Status.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormRFQStatus_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.txtHex_GotFocus.End
+
+Program.Sub.cmdAdd_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmdAdd_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+V.Local.sFilter.Declare(String,"")
+
+F.Intrinsic.String.Build("Status = '{0}'",V.Screen.FormRFQStatus!txtStatus.Text,V.Local.sFilter)
+
+F.Data.DataView.Create("Status","VStatus",22,V.Local.sFilter,"")
+F.Intrinsic.Control.If(V.DataView.Status!VStatus.RowCount--,=,-1)
+	F.Data.DataTable.AddRow("Status","Status_ID",0,"Status",V.Screen.FormRFQStatus!txtStatus.Text,"Description",V.Screen.FormRFQStatus!txtDesc.Text,"Hex_Value",V.Screen.FormRFQStatus!txtHex.Text)
+F.Intrinsic.Control.EndIf
+
+F.Data.DataView.Close("Status","VStatus")
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdAdd_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_RFQ_Status.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormRFQStatus_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmdAdd_Click.End
+
+Program.Sub.FormRFQStatus_UnLoad.Start
+F.Intrinsic.Control.SetErrorHandler("FormRFQStatus_UnLoad_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("FormRFQStatus_UnLoad_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.Control.End
+Function.Intrinsic.Control.EndIf
+Program.Sub.FormRFQStatus_UnLoad.End
+
+Program.Sub.GsGridStatus_RowCellClick.Start
+F.Intrinsic.Control.SetErrorHandler("GsGridStatus_RowCellClick_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.Intrinsic.Control.If(V.Args.Column.UCase,=,"DELETE_ROW")
+	F.Data.DataTable.DeleteRow("Status",V.Args.RowIndex)
+	F.Data.DataTable.AcceptChanges("Status")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("GsGridStatus_RowCellClick_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_RFQ_Status.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormRFQStatus_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.GsGridStatus_RowCellClick.End
+
+Program.Sub.Get_Data.Start
+F.Intrinsic.Control.SetErrorHandler("Get_Data_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.ODBC.Connection!Con.OpenCompanyConnection
+
+F.Data.DataTable.CreateFromSQL("Status","Con","Select Status_Id, rtrim(Status) as Status, rtrim(Description) as Description, Hex_Value From GCG_6275_RFQ_Status Order by Status_Id",True)
+F.Data.DataTable.AddColumn("Status","Delete_Row",String)
+
+F.ODBC.Connection!con.Close
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Get_Data_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_RFQ_Status.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormRFQStatus_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Get_Data.End
+
+Program.Sub.Set_Prop.Start
+F.Intrinsic.Control.SetErrorHandler("Set_Prop_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+Gui.FormRFQStatus.GsGridStatus.AddGridviewFromDatatable("GStatus","Status")
+
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Status_ID","Visible",False)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Delete_Row","Fixed","Right")
+Gui.FormRFQStatus.GsGridStatus.ColumnEdit("GStatus","Delete_Row","EditorButton","Delete")
+
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Status_ID","Caption","ID")
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Status","Caption","Status")
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Description","Caption","Description")
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Hex_Value","Caption","Hex Color Value")
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Delete_Row","Caption"," ")
+
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Status_ID","AllowEdit",False)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Status","AllowEdit",True)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Description","AllowEdit",True)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Hex_Value","AllowEdit",True)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Delete_Row","AllowEdit",False)
+
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Status_ID","ReadOnly",True)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Status","ReadOnly",False)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Description","ReadOnly",False)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Hex_Value","ReadOnly",False)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Delete_Row","ReadOnly",True)
+
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Status_ID","HeaderFontBold",True)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Status","HeaderFontBold",True)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Description","HeaderFontBold",True)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Hex_Value","HeaderFontBold",True)
+Gui.FormRFQStatus.GsGridStatus.SetColumnProperty("GStatus","Delete_Row","HeaderFontBold",True)
+
+Gui.FormRFQStatus.GsGridStatus.MainView("GStatus")
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Set_Prop_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_RFQ_Status.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormRFQStatus_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Set_Prop.End
+
+Program.Sub.cmdSave_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmdSave_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String,"")
+
+F.ODBC.Connection!con.OpenCompanyConnection
+
+F.ODBC.Connection!con.Execute("Delete From GCG_6275_RFQ_Status")
+
+F.Data.DataTable.SaveToDB("Status","con","Gcg_6275_RFQ_Status","",128,"Status_ID@!@Status_ID*!*Status@!@Status*!*Description@!@Description*!*Hex_Value@!@Hex_Value")
+
+Gui.FormRFQStatus.GsGridStatus.SuspendLayout
+F.Data.DataTable.CreateFromSQL("StatusTemp","Con","Select Status_Id, rtrim(Status) as Status, rtrim(Description) as Description, Hex_Value From GCG_6275_RFQ_Status Order by Status_Id",True)
+
+F.Data.DataTable.DeleteRow("Status")
+F.Data.DataTable.AcceptChanges("Status")
+
+F.Data.DataTable.Merge("StatusTemp","Status",False,2)
+F.Data.DataTable.Close("StatusTemp")
+
+Gui.FormRFQStatus.GsGridStatus.ResumeLayout
+
+F.Intrinsic.UI.Msgbox("Status Information Saved..........")
+
+F.ODBC.Connection!Con.Close
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdSave_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	F.Intrinsic.String.Build("Project: GCG_6275_RFQ_Status.g2u {0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(FormRFQStatus_UnLoad)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmdSave_Click.End
